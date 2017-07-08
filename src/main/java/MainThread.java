@@ -12,8 +12,8 @@ public class MainThread {
     private static ArrayList<File> targetPaths = new ArrayList<>();
     private static ScheduledExecutorService scheduledExecutorService =
             Executors.newScheduledThreadPool(2);
-    private static ExecutorService executor =
-            Executors.newSingleThreadExecutor();
+    public static ExecutorService executor =
+            Executors.newFixedThreadPool(3);
 
     public static void  main (String[] args) {
         WorkDirs dirs = new WorkDirs();
