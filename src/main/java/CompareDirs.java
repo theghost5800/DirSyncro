@@ -49,6 +49,8 @@ public class CompareDirs implements Runnable {
             }
         }
 
+        sourcePaths.clear();
+        targetPaths.clear();
 
     }
 

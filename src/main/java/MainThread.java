@@ -35,9 +35,6 @@ public class MainThread {
             boolean allDone = true; // Will change to false if state below is false
 
             try {
-//                for (ScheduledFuture thread : listThreads) {
-//                    thread.get();
-//                }
 
                 while (listThreads.iterator().hasNext()) {
                     ScheduledFuture thread = listThreads.poll();
