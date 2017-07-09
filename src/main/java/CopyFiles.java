@@ -8,18 +8,21 @@ import java.util.ArrayList;
  */
 public class CopyFiles implements Runnable {
     private ArrayList<Path> filesToCp;
-    private Path destPath;
+    private Path destRootPath;
+    private Path sourceRootPath;
 
-    public CopyFiles(ArrayList<Path> filesToCp, Path destPath) {
+    public CopyFiles(ArrayList<Path> filesToCp, Path destPath, Path sourcePath) {
         this.filesToCp = filesToCp;
-        this.destPath = destPath;
+        this.destRootPath = destPath;
+        this.sourceRootPath = sourcePath;
     }
     @Override
     public void run() {
         for (Path file : filesToCp) {
             try {
-                Files.copy(file,destPath.resolve(file.getFileName()));
-                System.out.println("File " + file.getFileName() + " was copied to " + destPath);
+                // Construct destination path from root source path
+                Files.copy(file, destRootPath.resolve(sourceRootPath.relativize(file)));
+                System.out.println("File " + file.getFileName() + " was copied to " + destRootPath);
             } catch (IOException e) {
                 e.printStackTrace();
             }

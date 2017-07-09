@@ -26,11 +26,11 @@ public class MainThread {
         while(true) {
 
             listThreads.add(scheduledExecutorService.schedule(new ScanDir(dirs.getSourcePath(),
-                    sourcePaths), 5, TimeUnit.SECONDS));
+                    sourcePaths), 20, TimeUnit.SECONDS));
 
 
             listThreads.add(scheduledExecutorService.schedule(new ScanDir(dirs.getTargetPath(),
-                    targetPaths), 5,TimeUnit.SECONDS));
+                    targetPaths), 20,TimeUnit.SECONDS));
 
             boolean allDone = true; // Will change to false if state below is false
 

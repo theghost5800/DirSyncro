@@ -40,13 +40,17 @@ public class CompareDirs implements Runnable {
         }
 
         if (!cpFiles.isEmpty()) {
-            MainThread.executor.execute(new CopyFiles(cpFiles, targetStartPath));
+            MainThread.executor.execute(new CopyFiles(cpFiles, targetStartPath, sourceStartPath));
         }
 
         for (Path path : target) {
             if (!source.contains(path)) {
                 rmFiles.add(targetStartPath.resolve(path));
             }
+        }
+
+        if (!rmFiles.isEmpty()) {
+            MainThread.executor.execute(new DeleteFiles((rmFiles)));
         }
 
         sourcePaths.clear();
