@@ -1,10 +1,14 @@
+package DirManage;
+
+import FileActions.CopyFiles;
+import FileActions.DeleteFiles;
+import ProgramManage.Manager;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-/**
- * Created by kris on 06.07.17.
- */
+
 public class CompareDirs implements Runnable {
     private ArrayList<File> sourcePaths;
     private ArrayList<File> targetPaths;
@@ -40,7 +44,7 @@ public class CompareDirs implements Runnable {
         }
 
         if (!cpFiles.isEmpty()) {
-            MainThread.executor.execute(new CopyFiles(cpFiles, targetStartPath, sourceStartPath));
+            Manager.executor.execute(new CopyFiles(cpFiles, targetStartPath, sourceStartPath));
         }
 
         for (Path path : target) {
@@ -50,7 +54,7 @@ public class CompareDirs implements Runnable {
         }
 
         if (!rmFiles.isEmpty()) {
-            MainThread.executor.execute(new DeleteFiles((rmFiles)));
+            Manager.executor.execute(new DeleteFiles((rmFiles)));
         }
 
         sourcePaths.clear();
@@ -64,9 +68,6 @@ public class CompareDirs implements Runnable {
         ArrayList<Path> relativeTargetPaths = genRelativePaths(targetPaths, targetStartPath);
 
         comparePaths(relativeSourcePaths, relativeTargetPaths);
-        //comparePaths(relativeTargetPaths, relativeSourcePaths);
-
-
 
     }
 }

@@ -1,15 +1,16 @@
+package FileActions;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-/**
- * Created by kris on 08.07.17.
- */
+
 public class CopyFiles implements Runnable {
     private ArrayList<Path> filesToCp;
     private Path destRootPath;
@@ -66,7 +67,7 @@ public class CopyFiles implements Runnable {
             try {
                 // Construct destination path from root source path
                 Path destPath = destRootPath.resolve(sourceRootPath.relativize(file));
-                Files.copy(file, destPath);
+                Files.copy(file, destPath, StandardCopyOption.COPY_ATTRIBUTES);
                 // Skip checksum if given path is directory
                 if (!Files.isDirectory(destPath)) {
                     System.out.println("File " + file.getFileName() + " was copied to " + destRootPath);

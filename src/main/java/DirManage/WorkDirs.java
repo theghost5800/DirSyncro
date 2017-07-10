@@ -1,11 +1,11 @@
+package DirManage;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by kris on 05.07.17.
- */
+
 public class WorkDirs {
     private Properties property;
     private File sourcePath, targetPath;
@@ -24,7 +24,7 @@ public class WorkDirs {
         return targetPath;
     }
 
-    void findDirs() {
+    public void findDirs() {
         FileReader reader = null;
         try {
             reader = new FileReader("dirs.prop");
@@ -51,9 +51,7 @@ public class WorkDirs {
             if (sourcePath.exists()) {
                 if (targetPath.exists()) {
                     System.out.println("These directories exists!");
-//                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-//
-//                    System.out.println(sdf.format(sourcePath.lastModified()));
+
                     return true;
                 }else {
                     System.out.println("Dir2 not exist!");
