@@ -37,15 +37,19 @@ public class Manager implements Runnable {
         dirs.validateDirs();
 
         Queue<ScheduledFuture> listThreads = new LinkedList<>();
+        ScanDir source = new ScanDir(dirs.getSourcePath(), sourcePaths);
+        ScanDir target = new ScanDir(dirs.getTargetPath(), targetPaths);
+        CompareDirs compareDirs = new CompareDirs(sourcePaths, targetPaths, dirs.getSourcePath()
+                , dirs.getTargetPath());
+
 
         while(!shutdown) {
 
-            listThreads.add(scheduledExecutorService.schedule(new ScanDir(dirs.getSourcePath(),
-                    sourcePaths), 20, TimeUnit.SECONDS));
+            listThreads.add(scheduledExecutorService.schedule(source, 20, TimeUnit.SECONDS));
 
 
-            listThreads.add(scheduledExecutorService.schedule(new ScanDir(dirs.getTargetPath(),
-                    targetPaths), 20,TimeUnit.SECONDS));
+            listThreads.add(scheduledExecutorService.schedule(target, 20,TimeUnit.SECONDS));
+
 
             boolean allDone = true; // Will change to false if state below is false
 
@@ -63,9 +67,8 @@ public class Manager implements Runnable {
                 e.printStackTrace();
             }
 
-            if (allDone) {
-                executor.execute(new CompareDirs(sourcePaths, targetPaths, dirs.getSourcePath()
-                        , dirs.getTargetPath()));
+            if (allDone && !shutdown) {
+                executor.execute(compareDirs);
             }
 
         }

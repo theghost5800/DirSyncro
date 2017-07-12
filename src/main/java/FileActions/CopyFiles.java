@@ -67,7 +67,7 @@ public class CopyFiles implements Runnable {
             try {
                 // Construct destination path from root source path
                 Path destPath = destRootPath.resolve(sourceRootPath.relativize(file));
-                Files.copy(file, destPath, StandardCopyOption.COPY_ATTRIBUTES);
+                Files.copy(file, destPath, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
                 // Skip checksum if given path is directory
                 if (!Files.isDirectory(destPath)) {
                     System.out.println("File " + file.getFileName() + " was copied to " + destRootPath);
