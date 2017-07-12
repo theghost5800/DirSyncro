@@ -32,8 +32,6 @@ public class ScanDir implements Callable<Boolean> {
 
         displayDirectoryContents(startPath);
 
-//        if (startPath.getParent().equals("/home/kris/intelliJ_projects/DirSynchro"))
-//            return false;
         return true;
     }
 }

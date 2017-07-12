@@ -34,7 +34,9 @@ public class Manager implements Runnable {
     public void run() {
         WorkDirs dirs = new WorkDirs();
         dirs.findDirs();
-        dirs.validateDirs();
+        if (!dirs.validateDirs()) {
+            return;
+        }
 
         Queue<ScheduledFuture> listThreads = new LinkedList<>();
         ScanDir source = new ScanDir(dirs.getSourcePath(), sourcePaths);
@@ -57,7 +59,7 @@ public class Manager implements Runnable {
 
                 while (listThreads.iterator().hasNext()) {
                     ScheduledFuture thread = listThreads.poll();
-                    boolean state = (boolean) thread.get();
+                    boolean state = (boolean) thread.get(); //Block operation
                     allDone &= state;
                 }
 

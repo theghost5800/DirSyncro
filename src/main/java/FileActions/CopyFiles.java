@@ -1,5 +1,7 @@
 package FileActions;
 
+import ProgramManage.Menu;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,7 +10,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class CopyFiles implements Runnable {
@@ -71,6 +75,10 @@ public class CopyFiles implements Runnable {
                 // Skip checksum if given path is directory
                 if (!Files.isDirectory(destPath)) {
                     System.out.println("File " + file.getFileName() + " was copied to " + destRootPath);
+                    String timeStamp = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss")
+                            .format(Calendar.getInstance().getTime());
+
+
 
                     //SHA-256 checksum
                     String shaSourceChecksum = getFileChecksum(shaDigest, file.toFile());
@@ -79,11 +87,16 @@ public class CopyFiles implements Runnable {
 
                     if (shaSourceChecksum.equals(shaTargetChecksum)) {
                         System.out.println("File " + file.getFileName() + " was correctly copied!");
+                        Menu.textArea.append("File " + file.getFileName() +
+                                " was copied correctly to " + destRootPath +" "+timeStamp+"\n");
                     } else {
                         System.out.println("File " + file.getFileName() + " was not correctly copied!");
                         Files.delete(destPath);
                         System.out.println("File " + destPath.getFileName() +
                                 " it was deleted! It will try again on next scan!");
+
+                        Menu.textArea.append("File " + file.getFileName() +
+                                " was not copied correctly " + destRootPath +" "+timeStamp+"\n");
                     }
                 }
 
